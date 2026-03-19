@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Détails</title>
+    <style>
+        
+        .product-container { display: flex; gap: 20px; margin-top: 20px; }
+        .product-info { max-width: 600px; }
+    </style>
+</head>
+<body>
+
+    <h1>Détails du produit : {{ product.name }}</h1>
+    <a href="{% url 'product_list' %}">← Retour à la liste</a>
+
+    <div class="product-container">
+        {% if product.image %}
+            <img src="{{ product.image.url }}" width="300" alt="{{ product.name }}">
+        {% else %}
+            <p><em>Pas d'image</em></p>
+        {% endif %}
+
+        <div class="product-info">
+            <p><strong>Prix :</strong> {{ product.price }} €</p>
+            <p><strong>Stock :</strong> {{ product.stock }}</p>
+            <p><strong>Catégorie :</strong> {{ product.category.name }}</p>
+            
+            <h3>Description</h3>
+            <p>{{ product.description|linebreaks }}</p>
+        </div>
+    </div>
+
+</body>
+</html>

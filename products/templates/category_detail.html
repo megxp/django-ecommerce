@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Catégorie : {{ category.name }}</title>
+</head>
+<body>
+    <h1>Produits dans la catégorie : {{ category.name }}</h1>
+    <p>{{ category.description }}</p>
+    
+    <hr>
+
+    <h3>Produits disponibles :</h3>
+    <ul>
+        {% for product in products %}
+            <li>
+                <a href="{% url 'product_detail' product.id %}">
+                    {{ product.name }}
+                </a> 
+                - {{ product.price }} €
+            </li>
+        {% empty %}
+            <li>Il n'y a pas encore de produits dans cette catégorie.</li>
+        {% endfor %}
+    </ul>
+
+    <br>
+    <a href="{% url 'category_list' %}">← Retour à la liste des catégories</a>
+</body>
+</html>
