@@ -1,36 +1,66 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ product.name }} - Détails</title>
-    <style>
-        
-        .product-container { display: flex; gap: 20px; margin-top: 20px; }
-        .product-info { max-width: 600px; }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
-    <h1>Détails du produit : {{ product.name }}</h1>
-    <a href="{% url 'product_list' %}">← Retour à la liste</a>
+{% block title %}{{ product.name }}{% endblock %}
 
-    <div class="product-container">
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-4">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'product_list' %}">Produits</a></li>
+        <li class="breadcrumb-item">
+            <a href="{% url 'category_detail' product.category.id %}">{{ product.category.name }}</a>
+        </li>
+        <li class="breadcrumb-item active">{{ product.name }}</li>
+    </ol>
+</nav>
+
+<div class="row g-4">
+    <!-- Image -->
+    <div class="col-md-5">
         {% if product.image %}
-            <img src="{{ product.image.url }}" width="300" alt="{{ product.name }}">
+            <img src="{{ product.image.url }}" class="img-fluid rounded shadow" alt="{{ product.name }}" style="width: 100%; max-height: 400px; object-fit: cover;">
         {% else %}
-            <p><em>Pas d'image</em></p>
+            <div class="bg-light rounded d-flex align-items-center justify-content-center shadow" style="height: 350px;">
+                <div class="text-center text-muted">
+                    <i class="bi bi-image" style="font-size: 4rem;"></i>
+                    <p class="mt-2">Pas d'image disponible</p>
+                </div>
+            </div>
         {% endif %}
-
-        <div class="product-info">
-            <p><strong>Prix :</strong> {{ product.price }} €</p>
-            <p><strong>Stock :</strong> {{ product.stock }}</p>
-            <p><strong>Catégorie :</strong> {{ product.category.name }}</p>
-            
-            <h3>Description</h3>
-            <p>{{ product.description|linebreaks }}</p>
-        </div>
     </div>
 
-</body>
-</html>
+    <!-- Infos -->
+    <div class="col-md-7">
+        <h1 class="h2 fw-bold">{{ product.name }}</h1>
+
+        <div class="d-flex align-items-center gap-3 mb-3">
+            <span class="fs-3 fw-bold text-primary">{{ product.price }} €</span>
+            {% if product.stock > 0 %}
+                <span class="badge bg-success fs-6">
+                    <i class="bi bi-check-circle me-1"></i>En stock ({{ product.stock }})
+                </span>
+            {% else %}
+                <span class="badge bg-danger fs-6">
+                    <i class="bi bi-x-circle me-1"></i>Rupture de stock
+                </span>
+            {% endif %}
+        </div>
+
+        <div class="mb-3">
+            <span class="badge bg-secondary">
+                <i class="bi bi-tag me-1"></i>{{ product.category.name }}
+            </span>
+        </div>
+
+        <hr>
+
+        <h5 class="fw-semibold">Description</h5>
+        <p class="text-muted">{{ product.description|linebreaks }}</p>
+
+        <hr>
+
+        <a href="{% url 'product_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Retour aux produits
+        </a>
+    </div>
+</div>
+{% endblock %}

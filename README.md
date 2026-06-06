@@ -40,5 +40,4 @@ Listes : Une vue pour tous les produits et une pour toutes les catégories.
 
 Détails : Des vues spécifiques utilisant l'ID (ou PK) pour afficher une page unique par objet (ex: product/2/).
 
-Filtrage : La capacité d'afficher uniquement les produits appartenant à une catégorie précise.
-
+Filtrage : La capacité d'afficher uniquement les produits appartenant à une catégorie p

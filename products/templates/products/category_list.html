@@ -1,26 +1,41 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Toutes les Catégories</title>
-</head>
-<body>
-    <h1>Liste des Catégories</h1>
-    <a href="{% url 'product_list' %}">← Retour aux produits</a>
+{% extends 'base.html' %}
 
-    <ul>
-        {% for category in categories %}
-            <li>
-                <strong>
-                    <a href="{% url 'category_detail' category.id %}">
-                        {{ category.name }}
-                    </a>
-                </strong>
-                <p>{{ category.description|truncatewords:10 }}</p>
-            </li>
-        {% empty %}
-            <li>Aucune catégorie pour le moment.</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% block title %}Toutes les Catégories{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h3 fw-bold mb-0">
+        <i class="bi bi-tags me-2 text-primary"></i>Toutes les Catégories
+    </h1>
+    <a href="{% url 'product_list' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i>Retour aux produits
+    </a>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    {% for category in categories %}
+    <div class="col">
+        <div class="card h-100 shadow-sm border-0">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-primary bg-opacity-10 rounded-circle p-3 me-3">
+                        <i class="bi bi-folder2 text-primary fs-4"></i>
+                    </div>
+                    <h5 class="card-title fw-bold mb-0">{{ category.name }}</h5>
+                </div>
+                <p class="card-text text-muted small">{{ category.description|truncatewords:15 }}</p>
+                <a href="{% url 'category_detail' category.id %}" class="btn btn-outline-primary btn-sm mt-2">
+                    <i class="bi bi-eye me-1"></i>Voir les produits
+                </a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info text-center">
+            <i class="bi bi-info-circle me-2"></i>Aucune catégorie disponible pour le moment.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
